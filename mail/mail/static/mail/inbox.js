@@ -24,7 +24,6 @@ function compose_email() {
 }
 
 function email_submit(event) {
-  event.preventDefault()
 
     fetch('/emails', {
       method: 'POST',
@@ -60,5 +59,19 @@ function load_mailbox(mailbox) {
       console.log(emails);
 
       // ... do something else with emails ...
+  emails.forEach(email => {
+    const element = document.createElement('div');
+    element.className = email['read'] ? "p-3 mb-2 bg-info text-white" : "p-3 mb-2 bg-white text-dark";
+    element.innerHTML = `
+    <span><strong>${email['sender']}</strong></span>
+    <span>${email['subject']}</span>
+    <span>${email['timestamp']}</span>
+    `;
+    element.addEventListener('click', function() {
+    console.log('This element has been clicked!')
+    });
+    document.querySelector('#emails-view').append(element);
+    });
+
   });
 }

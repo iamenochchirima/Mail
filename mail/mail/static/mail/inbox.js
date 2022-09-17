@@ -81,8 +81,6 @@ function load_mailbox(mailbox) {
 
 function load_email(id) {
 
-  const email_view = document.querySelector('#email-view');
-
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#email-view').style.display = 'block';
@@ -94,5 +92,27 @@ function load_email(id) {
       console.log(email);
 
       // ... do something else with email ...
+      const element = document.querySelector('#email-view');
+      element.innerHTML = `
+      <div><strong>From :</strong>${email['sender']}</div>
+      <div><strong>To: </strong>${email['recipients']}</div>
+      <div><strong>Subject: </strong>${email['subject']}</div>
+      <div><strong>At: </strong>${email['timestamp']}</div>
+      <br>
+      <div>
+      <p>${email['body']}</p>
+      </div>
+      `;
   });
 }
+
+
+// ... do something else with email ...
+      /*if (mailbox === 'inbox') {
+        fetch('/email/' + id, {
+          method: 'PUT',
+          body: JSON.stringify({
+              read: true
+          })
+        });
+      email’s sender, recipients, subject, timestamp, and body*/  

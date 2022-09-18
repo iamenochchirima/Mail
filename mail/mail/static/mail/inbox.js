@@ -54,7 +54,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
-  fetch('/emails/' + mailbox )
+  fetch(`/emails/${mailbox}`)
   .then(response => response.json())
   .then(emails => {
       // Print emails
@@ -85,7 +85,7 @@ function load_email(id) {
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#email-view').style.display = 'block';
 
-  fetch('/emails/' + id)
+  fetch(`/emails/${id}`)
   .then(response => response.json())
   .then(email => {
       // Print email
@@ -94,7 +94,7 @@ function load_email(id) {
       // ... do something else with email ...
       const element = document.querySelector('#email-view');
       element.innerHTML = `
-      <div><strong>From :</strong>${email['sender']}</div>
+      <div><strong>From : </strong>${email['sender']}</div>
       <div><strong>To: </strong>${email['recipients']}</div>
       <div><strong>Subject: </strong>${email['subject']}</div>
       <div><strong>At: </strong>${email['timestamp']}</div>
@@ -102,17 +102,42 @@ function load_email(id) {
       <div>
       <p>${email['body']}</p>
       </div>
+      <br>
+      <button class="btn btn-outline-primary" id="reply" onclick="email_reply(${email.id});">Reply</button>
       `;
+
   });
+
+}  
+
+function email_archive(id) {
+  fetch(`/emails/${'id'}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+        archived: true
+    })
+  })
+  .then
+}
+
+function email_reply(id) {
+    fetch(`/email/${id}`)
+    .then(response => response.json())
+    .then(email => {
+      compose_email();
+      const re = email.subject.slice(0, 2) === 'Re' ? '' : 'Re: ';
+      document.querySelector('#compose-recipients').value = email.sender;
+      document.querySelector('#compose-subject').value = re + email.subject
+      document.querySelector('#compose-body').value = `On ${email.timestamp} ${email.sender} wrote: ${email.body}`;
+    });
+
 }
 
 
-// ... do something else with email ...
-      /*if (mailbox === 'inbox') {
-        fetch('/email/' + id, {
-          method: 'PUT',
-          body: JSON.stringify({
-              read: true
-          })
-        });
-      email’s sender, recipients, subject, timestamp, and body*/  
+
+/*const reply_button = document.createElement('button');
+      reply_button.className = "btn btn-outline-primary";
+      reply_button.innerHTML = "Reply";
+      reply_button.addEventListener('click', function() {
+        email_reply(id);
+      })*/

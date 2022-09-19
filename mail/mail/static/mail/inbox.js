@@ -117,16 +117,30 @@ function load_email(id) {
       });
 
       element.appendChild(reply_button);
+
+      const archive_button = document.createElement('button');
+      archive_button.className = "btn btn-outline-primary";
+      archive_button.innerHTML = !email['archived'] ? 'Archive' : 'Unarchive';
+      archive_button.addEventListener('click', () => {
+        if (archive_button.innerHTML === 'Archive') {
+          fetch(`/emails/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                archived: true
+            })
+          });
+        } else {
+          fetch(`/emails/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                archived: false
+            })
+          });
+        }
+
+        load_mailbox('inbox');
+      })
+
+      element.appendChild(archive_button);
   });
-
-
 }  
-
-function email_archive(id) {
-  fetch(`/emails/${yid}`, {
-    method: 'PUT',
-    body: JSON.stringify({
-        archived: true
-    })
-  });
-}

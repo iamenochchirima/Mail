@@ -103,41 +103,30 @@ function load_email(id) {
       <p>${email['body']}</p>
       </div>
       <br>
-      <button class="btn btn-outline-primary" id="reply" onclick="email_reply(${email.id});">Reply</button>
       `;
 
+      const reply_button = document.createElement('button');
+      reply_button.className = "btn btn-outline-primary";
+      reply_button.innerHTML = "Reply";
+      reply_button.addEventListener('click', () => {
+        compose_email();
+        document.querySelector('#compose-recipients').value = email.sender;
+        document.querySelector('#compose-subject').value = email.subject
+        document.querySelector('#compose-body').value = `On ${email.timestamp} ${email.sender} wrote: ${email.body}`;  
+
+      });
+
+      element.appendChild(reply_button);
   });
+
 
 }  
 
 function email_archive(id) {
-  fetch(`/emails/${'id'}`, {
+  fetch(`/emails/${yid}`, {
     method: 'PUT',
     body: JSON.stringify({
         archived: true
     })
-  })
-  .then
+  });
 }
-
-function email_reply(id) {
-    fetch(`/email/${id}`)
-    .then(response => response.json())
-    .then(email => {
-      compose_email();
-      const re = email.subject.slice(0, 2) === 'Re' ? '' : 'Re: ';
-      document.querySelector('#compose-recipients').value = email.sender;
-      document.querySelector('#compose-subject').value = re + email.subject
-      document.querySelector('#compose-body').value = `On ${email.timestamp} ${email.sender} wrote: ${email.body}`;
-    });
-
-}
-
-
-
-/*const reply_button = document.createElement('button');
-      reply_button.className = "btn btn-outline-primary";
-      reply_button.innerHTML = "Reply";
-      reply_button.addEventListener('click', function() {
-        email_reply(id);
-      })*/

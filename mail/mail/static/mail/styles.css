@@ -1,3 +1,25 @@
 textarea {
     min-height: 400px;
 }
+
+body {
+    background: azure;
+}
+
+.read-color {
+    background-color: gray;
+}
+
+.unread-color {
+    background: white;
+}
+
+.p-3 {
+    border-radius: 10px;
+    box-shadow:  22px 22px 42px #a4a4a4,
+             0 0 0 #ffffff;
+}
+
+span {
+    padding: 0 4em 0 4em;
+}

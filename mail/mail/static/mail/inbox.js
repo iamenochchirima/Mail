@@ -66,7 +66,7 @@ function load_mailbox(mailbox) {
   emails.forEach(email => {
     const element = document.createElement('div');
     element.id = "element";
-    element.className = email['read'] ? "p-3 mb-2 bg-info text-white" : "p-3 mb-2 bg-white text-dark";
+    element.className = email['read'] ? "p-3 mb-2 read-color" : "p-3 mb-2 unread-color";
     element.innerHTML = `
     <span><strong>${email['sender']}</strong></span>
     <span>${email['subject']}</span>

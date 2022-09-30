@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block body %}
+<body>
     <h2>{{ request.user.email }}</h2>
 
     <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
@@ -32,6 +33,7 @@
             <input type="submit" class="btn btn-primary"/>
         </form>
     </div>
+</body>
 {% endblock %}
 
 {% block script %}
